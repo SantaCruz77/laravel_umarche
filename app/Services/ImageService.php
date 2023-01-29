@@ -13,7 +13,7 @@ class ImageService
         $extension = $imageFile->extension(); 
         $fileNameToStore = $fileName. '.' . $extension;
         $resizedImage = InterventionImage::make($imageFile)->resize(1920, 1080)->encode();
-        Storage::put('public/shops/' . $folderName . '/' . $fileNameToStore, $resizedImage );
+        Storage::put('public/' . $folderName . '/' . $fileNameToStore, $resizedImage );
 
         return $fileNameToStore;
     }
