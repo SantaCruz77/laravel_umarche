@@ -59,6 +59,7 @@ class ShopController extends Controller
             'information' => 'required|string|max:1000',
             'is_selling' => 'required',
         ]);
+        
         $imageFile = $request->image; //一時保存 
         if(!is_null($imageFile) && $imageFile->isValid() ){
             $fileNameToStore = ImageService::upload($imageFile, 'shops');
