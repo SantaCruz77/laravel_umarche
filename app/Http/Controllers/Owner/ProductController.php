@@ -179,7 +179,7 @@ class ProductController extends Controller
                         $product->image4 = $request->image4;
                         $product->is_selling = $request->is_selling;
                         $product->save();
-
+// リカバリー git_commit_message sec06_product_update
                     if($request->type === '1'){
                         $newQuantity = $request->quantity;
                     }
