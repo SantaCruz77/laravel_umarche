@@ -68,19 +68,6 @@ class CartController extends Controller
             if($product->pivot->quantity > $quantity){
                 return redirect()->route('user.cart.index');
             } else {
-                // $lineItem = [
-                //     // 'price_data.product_data.name' => $product->name,
-                //     // 'price_data.product_data.description' => $product->information,
-                //     // 'price' => $product->price,
-                //     // 'price_data.currency' => 'jpy',
-                //     // 'quantity' => $product->pivot->quantity,
-                //     'name' => $product->name,
-                //     'description' => $product->information,
-                //     'price' => $product->price,
-                //     'currency' => 'jpy',
-                //     'quantity' => $product->pivot->quantity,
-                // ];
-                // array_push($lineItems, $lineItem);
                 $lineItem = [[
                     'price_data' => [
                         'unit_amount' => $product->price,
@@ -112,7 +99,7 @@ class CartController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => [$lineItems],
             'mode' => 'payment',
-            'success_url' => route('user.cart.index'),
+            'success_url' => route('user.cart.success'),
             'cancel_url' => route('user.cart.index'),
         ]);
 
@@ -120,5 +107,12 @@ class CartController extends Controller
 
         return view('user.checkout',
             compact('session', 'publicKey'));
+    }
+
+    public function success()
+    {
+        Cart::where('user_id', Auth::id())->delete();
+
+        return redirect()->route('user.items.index');
     }
 }
