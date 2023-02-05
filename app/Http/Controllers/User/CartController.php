@@ -66,15 +66,32 @@ class CartController extends Controller
             $quantity = Stock::where('product_id', $product->id)->sum('quantity');
 
             if($product->pivot->quantity > $quantity){
-                return view('user.cart.index');
+                return redirect()->route('user.cart.index');
             } else {
-                $lineItem = [
-                    'price_data.product_data.name' => $product->name,
-                    'price_data.product_data.description' => $product->information,
-                    'price' => $product->price,
-                    'price_data.currency' => 'jpy',
+                // $lineItem = [
+                //     // 'price_data.product_data.name' => $product->name,
+                //     // 'price_data.product_data.description' => $product->information,
+                //     // 'price' => $product->price,
+                //     // 'price_data.currency' => 'jpy',
+                //     // 'quantity' => $product->pivot->quantity,
+                //     'name' => $product->name,
+                //     'description' => $product->information,
+                //     'price' => $product->price,
+                //     'currency' => 'jpy',
+                //     'quantity' => $product->pivot->quantity,
+                // ];
+                // array_push($lineItems, $lineItem);
+                $lineItem = [[
+                    'price_data' => [
+                        'unit_amount' => $product->price,
+                        'currency' => 'jpy',
+                        'product_data' => [
+                            'name' => $product->name,
+                            'description' => $product->information,
+                        ],
+                    ],
                     'quantity' => $product->pivot->quantity,
-                ];
+                ]];
                 array_push($lineItems, $lineItem);
             }
         }
@@ -87,7 +104,7 @@ class CartController extends Controller
             ]);
         }
 
-        dd('test');
+        // dd('test');
 
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
@@ -95,7 +112,7 @@ class CartController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => [$lineItems],
             'mode' => 'payment',
-            'success_url' => route('user.items.index'),
+            'success_url' => route('user.cart.index'),
             'cancel_url' => route('user.cart.index'),
         ]);
 
