@@ -7,7 +7,7 @@
             <div>
                 <form method="get" action="{{ route('user.items.index') }}">
                     <div class="flex">
-                        <div>
+                        <div class="pr-4">
                             <span class="text-sm">表示順</span><br>
                             <select id="sort" name="sort" class="mr-4">
                                 <option value="{{ \Constant::SORT_ORDER['recommend']}}"
