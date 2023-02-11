@@ -4,28 +4,29 @@
             商品一覧
         </h2>
             <form method="get" action="{{ route('user.items.index') }}">
-                <div>
                 <div class="lg:flex lg:justify-around">
-                    <div class="lg:flex items-center">
-                        <select name="category" class="mb-2 lg:mb-0 lg:-mr-2">
-                            <option value="0" @if(\Request::get('category') === '0') selected
-                            @endif>全て</option>
-                            @foreach($categories as $category)
-                                <optgroup label="{{ $category->name }}"> 
-                                @foreach($category->secondary as $secondary)
-                                    <option value="{{ $secondary->id}}" @if(\Request::get('category') == $secondary->id) selected
-                                        @endif> 
-                                        {{ $secondary->name }}
-                                    </option> 
-                                @endforeach
-                            @endforeach 
-                        </select>
-                        <div class="flex space-x-2 items-center">
-                            <div><input name="keyword" class="border border-gray-500 py-2 mr-2" placeholder="キーワードを入力"></div>
+                    <div class="flex items-center">
+                        <div class="mr-2">
+                            <select name="category" class="mb-2 lg:mb-0 lg:-mr-2">
+                                <option value="0" @if(\Request::get('category') === '0') selected
+                                @endif>全て</option>
+                                @foreach($categories as $category)
+                                    <optgroup label="{{ $category->name }}"> 
+                                    @foreach($category->secondary as $secondary)
+                                        <option value="{{ $secondary->id}}" @if(\Request::get('category') == $secondary->id) selected
+                                            @endif> 
+                                            {{ $secondary->name }}
+                                        </option> 
+                                    @endforeach
+                                @endforeach 
+                            </select>
+                        </div>
+                        <div class="flex space-x-2 items-center mb-2">
+                            <div><input name="keyword" class="border-2 border-gray-900 py-2 mr-2" placeholder="キーワードを入力"></div>
                             <div><button class="ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">検索する</button></div>
                         </div>
-                    </div> 
-                    <div class="flex">
+                    </div>
+                    <div class="flex items-center">
                         <div class="pr-4">
                             <span class="text-sm">表示順</span><br>
                             <select id="sort" name="sort" class="mr-4">
